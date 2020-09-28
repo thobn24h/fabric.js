@@ -63,6 +63,7 @@
         eventjs[eventjsFunctor](canvasElement, 'orientation', this._onOrientationChange);
         eventjs[eventjsFunctor](canvasElement, 'shake', this._onShake);
         eventjs[eventjsFunctor](canvasElement, 'longpress', this._onLongPress);
+        eventjs[eventjsFunctor](canvasElement, 'tap', this._onLongPress);
       }
     },
 
