@@ -557,15 +557,21 @@
       // ++ThoBN: fix bug lost image svg quality
       // elementToDraw && ctx.drawImage(elementToDraw, sX, sY, sW, sH, x, y, maxDestW, maxDestH);
       if (elementToDraw) {
-        if (typeof ctx.currentTransform !== 'undefined' && ctx.currentTransform != null) {
-          var ext = elementToDraw.src.split('?')[0].split('.').pop();
-          if (ext === 'svg') {
-            var scale = ctx.currentTransform.a;
-            elementToDraw[fabric.jsdomImplSymbol]._image.width = elementToDraw.naturalWidth * scale;
-            elementToDraw[fabric.jsdomImplSymbol]._image.height = elementToDraw.naturalHeight * scale;
-            ctx.drawImage(elementToDraw, sX * scale, sY * scale, sW * scale, sH * scale, x, y, maxDestW, maxDestH);
+        if (typeof ctx.currentTransform !== 'undefined' && ctx.currentTransform != null && typeof elementToDraw.src !== 'undefined' && elementToDraw.src != null) {
+          try {
+            var ext = elementToDraw.src.split('?')[0].split('.').pop();
+            if (ext === 'svg') {
+              var scale = ctx.currentTransform.a;
+              elementToDraw[fabric.jsdomImplSymbol]._image.width = elementToDraw.naturalWidth * scale;
+              elementToDraw[fabric.jsdomImplSymbol]._image.height = elementToDraw.naturalHeight * scale;
+              ctx.drawImage(elementToDraw, sX * scale, sY * scale, sW * scale, sH * scale, x, y, maxDestW, maxDestH);
+            }
+            else {
+              ctx.drawImage(elementToDraw, sX, sY, sW, sH, x, y, maxDestW, maxDestH);
+            }
           }
-          else {
+          catch(ex) {
+            console.log('Image _renderFill exeception: ' + ex.message);
             ctx.drawImage(elementToDraw, sX, sY, sW, sH, x, y, maxDestW, maxDestH);
           }
         }
