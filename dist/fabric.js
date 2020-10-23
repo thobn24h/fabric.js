@@ -23225,9 +23225,6 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
       // ++ThoBN: fix bug lost image svg quality
       // elementToDraw && ctx.drawImage(elementToDraw, sX, sY, sW, sH, x, y, maxDestW, maxDestH);
       if (elementToDraw) {
-
-        console.log('Image _renderFill: ' + JSON.stringify(ctx))
-
         if (typeof ctx.currentTransform !== 'undefined' && ctx.currentTransform != null) {
           var ext = elementToDraw.src.split('?')[0].split('.').pop();
           if (ext === 'svg') {
