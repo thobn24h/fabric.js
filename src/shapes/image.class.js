@@ -554,7 +554,21 @@
           maxDestW = min(w, elWidth / scaleX - cropX),
           maxDestH = min(h, elHeight / scaleX - cropY);
 
-      elementToDraw && ctx.drawImage(elementToDraw, sX, sY, sW, sH, x, y, maxDestW, maxDestH);
+      // ++ThoBN: fix bug lost image svg quality
+      // elementToDraw && ctx.drawImage(elementToDraw, sX, sY, sW, sH, x, y, maxDestW, maxDestH);
+      if (elementToDraw) {
+        var ext = elementToDraw.src.split('?')[0].split('.').pop();
+        if (ext === 'svg') {
+          var scale = ctx.currentTransform.a;
+          elementToDraw[fabric.jsdomImplSymbol]._image.width = elementToDraw.naturalWidth * scale;
+          elementToDraw[fabric.jsdomImplSymbol]._image.height = elementToDraw.naturalHeight * scale;
+          ctx.drawImage(elementToDraw, sX * scale, sY * scale, sW * scale, sH * scale, x, y, maxDestW, maxDestH);
+        }
+        else {
+          ctx.drawImage(elementToDraw, sX, sY, sW, sH, x, y, maxDestW, maxDestH);
+        }
+      }
+
     },
 
     /**
