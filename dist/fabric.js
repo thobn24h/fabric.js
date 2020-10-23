@@ -23225,12 +23225,20 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
       // ++ThoBN: fix bug lost image svg quality
       // elementToDraw && ctx.drawImage(elementToDraw, sX, sY, sW, sH, x, y, maxDestW, maxDestH);
       if (elementToDraw) {
-        var ext = elementToDraw.src.split('?')[0].split('.').pop();
-        if (ext === 'svg') {
-          var scale = ctx.currentTransform.a;
-          elementToDraw[fabric.jsdomImplSymbol]._image.width = elementToDraw.naturalWidth * scale;
-          elementToDraw[fabric.jsdomImplSymbol]._image.height = elementToDraw.naturalHeight * scale;
-          ctx.drawImage(elementToDraw, sX * scale, sY * scale, sW * scale, sH * scale, x, y, maxDestW, maxDestH);
+
+        console.log('Image _renderFill: ' + JSON.stringify(ctx))
+
+        if (typeof ctx.currentTransform !== 'undefined' && ctx.currentTransform != null) {
+          var ext = elementToDraw.src.split('?')[0].split('.').pop();
+          if (ext === 'svg') {
+            var scale = ctx.currentTransform.a;
+            elementToDraw[fabric.jsdomImplSymbol]._image.width = elementToDraw.naturalWidth * scale;
+            elementToDraw[fabric.jsdomImplSymbol]._image.height = elementToDraw.naturalHeight * scale;
+            ctx.drawImage(elementToDraw, sX * scale, sY * scale, sW * scale, sH * scale, x, y, maxDestW, maxDestH);
+          }
+          else {
+            ctx.drawImage(elementToDraw, sX, sY, sW, sH, x, y, maxDestW, maxDestH);
+          }
         }
         else {
           ctx.drawImage(elementToDraw, sX, sY, sW, sH, x, y, maxDestW, maxDestH);
